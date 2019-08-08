@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,25 +47,38 @@ class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private int countClick(int click) {
-        return stat=click+1;
+        return stat = click + 1;
     }
 
 
-    private String getCurrentTime(){
+    private String getCurrentTime() {
         Date currentTime = Calendar.getInstance().getTime();
-        return currentTime+"";
+        return currentTime + "";
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_n1_main_fragment:
-                textView1.setText("" + countClick(stat)+" Last click was at - "+getCurrentTime());
+                countClick(stat);
+                textView1.setText(stat + " Last click was at - " + getCurrentTime());
+                Log.d("click_stat", stat + " Last click was at - " + getCurrentTime());
                 break;
             case R.id.btn_n2_main_fragment:
-
+                SecondFragment secondFragment = new SecondFragment();
+                FragmentManager fragmentManager2 = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                fragmentTransaction2.replace(R.id.flMainActivity, secondFragment, "clickThirdBtn");
+                fragmentTransaction2.addToBackStack(null);
+                fragmentTransaction2.commit();
                 break;
             case R.id.btn_n3_main_fragment:
-
+                ThirdFragment thirdFragment = new ThirdFragment();
+                FragmentManager fragmentManager3 = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+                fragmentTransaction3.replace(R.id.flMainActivity, thirdFragment, "clickThirdBtn");
+                fragmentTransaction3.addToBackStack(null);
+                fragmentTransaction3.commit();
                 break;
         }
     }
